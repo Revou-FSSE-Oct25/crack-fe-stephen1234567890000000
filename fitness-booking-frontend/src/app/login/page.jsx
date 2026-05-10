@@ -17,12 +17,9 @@ export default function Login() {
 
     try {
       const { data } = await api.post("/auth/login", form);
-      console.log(data, data.accesstoken, "dataaaaa");
-
       localStorage.setItem("accessToken", data.accesstoken);
       router.push("/services");
     } catch (error) {
-      console.log(error.response?.data?.message, "errorrrr");
       setError(error.response?.data?.message);
     }
   }
