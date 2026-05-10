@@ -58,6 +58,12 @@ export default function Services() {
                 <p>Duration: {el.duration} minutes</p>
                 <p>Price: ${el.price.toFixed(2)}</p>
               </div>
+              <Link
+                href={`/services/${el.id}`}
+                className="bg-white text-black px-4 py-2 rounded inline-block mt-4"
+              >
+                View Details
+              </Link>
             </div>
           ))}
       </div>
