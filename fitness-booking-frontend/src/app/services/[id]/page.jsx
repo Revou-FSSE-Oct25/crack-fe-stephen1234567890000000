@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import api from "@/lib/axios";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { formatDate } from "@/app/utils/formatDate";
 
 export default function ServiceDetail() {
   const params = useParams();
@@ -76,7 +77,7 @@ export default function ServiceDetail() {
             >
               <div>
                 <p>Trainer: {sch.User.name}</p>
-                <p>Date: {sch.date}</p>
+                <p>Date: {formatDate(sch.date)}</p>
                 <p>
                   Time: {sch.startTime} - {sch.endTime}
                 </p>
