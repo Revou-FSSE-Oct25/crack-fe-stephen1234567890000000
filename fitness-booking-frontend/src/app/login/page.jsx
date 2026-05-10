@@ -10,21 +10,22 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
       const { data } = await api.post("/auth/login", form);
-      console.log(data, 'dataaaaa');
-      
+      console.log(data, data.accesstoken, "dataaaaa");
+
       localStorage.setItem("accessToken", data.accesstoken);
       router.push("/services");
     } catch (error) {
-      setError(error.response?.data.message);
+      console.log(error.response?.data?.message, "errorrrr");
+      setError(error.response?.data?.message);
     }
-  } 
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center">
