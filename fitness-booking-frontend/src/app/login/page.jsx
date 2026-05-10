@@ -10,16 +10,17 @@ export default function Login() {
     email: "",
     password: "",
   });
+  const [error, setError] = useState("")
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
       const { data } = await api.post("/auth/login", form);
-      localStorage.setItem("accessToken", data.accesToken);
+      localStorage.setItem("accessToken", data.accessToken);
       router.push("/services");
     } catch (error) {
-      console.log(error);
+      setError(error.response?.data.message);
     }
   }
   return (
@@ -37,7 +38,8 @@ export default function Login() {
           type="password"
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
-        <button className="bg-black text-white p-2">Login</button>
+        {error && <p className="text-red-500">{error}</p>}
+        <button className="bg-white text-black p-2">Login</button>
       </form>
     </div>
   );

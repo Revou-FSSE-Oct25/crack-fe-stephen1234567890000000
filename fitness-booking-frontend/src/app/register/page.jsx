@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function Register() {
   const router = useRouter();
-
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -17,10 +17,11 @@ export default function Register() {
     e.preventDefault();
 
     try {
-      await api.post("/auth/register", form);
-      router.push("/login");
+      const { data } = await api.post("/auth/register", form);
+      localStorage.setItem("accessToken", data.accessToken);
+      router.push("/services");
     } catch (error) {
-      console.log(error);
+      setError(error.response?.data.message);
     }
   }
   return (
@@ -43,8 +44,9 @@ export default function Register() {
           type="password"
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
+        {error && <p className="text-red-500">{error}</p>}
 
-        <button className="bg-black text-white p-2">Register</button>
+        <button className="bg-white text-black p-2">Register</button>
       </form>
     </div>
   );
