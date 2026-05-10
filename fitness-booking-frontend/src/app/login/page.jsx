@@ -17,12 +17,15 @@ export default function Login() {
 
     try {
       const { data } = await api.post("/auth/login", form);
-      localStorage.setItem("accessToken", data.accessToken);
+      console.log(data, 'dataaaaa');
+      
+      localStorage.setItem("accessToken", data.accesstoken);
       router.push("/services");
     } catch (error) {
       setError(error.response?.data.message);
     }
-  }
+  } 
+
   return (
     <div className="min-h-screen flex items-center justify-center">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-[300px]">
