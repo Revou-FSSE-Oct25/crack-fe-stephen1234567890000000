@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import api from "@/lib/axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { formatDate } from "@/app/utils/formatDate";
 import { formatTime } from "@/app/utils/formatTime";
 
 export default function ServiceDetail() {
+  const router = useRouter();
   const params = useParams();
   const id = params.id;
   const [service, setService] = useState(null);
@@ -15,9 +16,15 @@ export default function ServiceDetail() {
   const [error, setError] = useState("");
   const [schedule, setSchedule] = useState([]);
   const [loadingBooking, setLoadingBooking] = useState(false);
-  const [selectedSchedule, setSelectedSchedule] = useState(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      toast.error("Pelase login first");
+      router.push("/login");
+      return;
+    }
+
     async function fetchService() {
       try {
         setLoading(true);
@@ -33,8 +40,6 @@ export default function ServiceDetail() {
     async function fetchSchedule() {
       try {
         const { data } = await api.get(`/schedules/services/${id}`);
-        console.log(data, "ini dataa");
-
         setSchedule(data);
       } catch (error) {
         setError(error.response?.data?.message);
@@ -43,17 +48,20 @@ export default function ServiceDetail() {
 
     fetchService();
     fetchSchedule();
-  }, [id]);
+  }, [id, router]);
 
-  async function handleBooking() {
+  async function handleBooking(ScheduleId) {
     try {
       setLoadingBooking(true);
-      await api.post("/", {
-        scheduleId: selectedSchedule,
+      await api.post("/bookings", {
+        ScheduleId,
       });
       toast.success("Booking successful!");
     } catch (error) {
-      toast.error("Booking failed!" || error.response?.data?.message);
+      toast.error(
+        error.response?.data?.message || error.message || "Booking failed!",
+      );
+      console.log(error.response?.data?.message, "errr");
     } finally {
       setLoadingBooking(false);
     }
@@ -70,11 +78,11 @@ export default function ServiceDetail() {
       <div className="mt-10">
         <h2 className="text-2xl font-bold mb-4">Available Schedules</h2>
         <div className="grid gap-4">
+          {schedule?.length === 0 && <p>No Schedule avaliable</p>}
           {schedule?.map((sch) => (
             <div
               className="border rounded-xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
               key={sch.id}
-              onClick={() => setSelectedSchedule(sch.id)}
             >
               <div>
                 <p>Trainer: {sch.User.name}</p>
@@ -85,10 +93,15 @@ export default function ServiceDetail() {
                 <p>Remaining slot: {sch.capacity}</p>
               </div>
               <button
-                onClick={handleBooking}
-                disabled={!selectedSchedule || loadingBooking}
+                onClick={() => handleBooking(sch.id)}
+                disabled={sch.capacity <= 0 || loadingBooking}
+                className="bg-white text-black px-4 py-2 rounded disabled:bg-gray-400 hover:bg-gray-200 cursor-pointer"
               >
-                {sch.capacity <= 0 ? "full" : "Book Now"}
+                {loadingBooking
+                  ? "Booking..."
+                  : sch.capacity <= 0
+                    ? "full"
+                    : "Book Now"}
               </button>
             </div>
           ))}
