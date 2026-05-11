@@ -19,6 +19,10 @@ export default function Login() {
       const { data } = await api.post("/auth/login", form);
       localStorage.setItem("accessToken", data.accesstoken);
       localStorage.setItem("role", data.role);
+      if (data.role === "admin") {
+        router.push("/admin/services");
+        return;
+      }
       router.push("/services");
     } catch (error) {
       setError(error.response?.data?.message);
