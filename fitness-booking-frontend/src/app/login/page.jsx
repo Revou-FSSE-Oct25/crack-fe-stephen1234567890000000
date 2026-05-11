@@ -18,6 +18,7 @@ export default function Login() {
     try {
       const { data } = await api.post("/auth/login", form);
       localStorage.setItem("accessToken", data.accesstoken);
+      localStorage.setItem("role", data.role);
       router.push("/services");
     } catch (error) {
       setError(error.response?.data?.message);
