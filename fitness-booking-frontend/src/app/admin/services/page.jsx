@@ -43,7 +43,7 @@ export default function AdminPage() {
         <h1 className="text-3xl font-bold">Services</h1>
         <a
           href="/admin/services/create"
-          className="bg-black text-white px-4 py-2 rounded"
+          className="bg-white text-black px-4 py-2 rounded"
         >
           Add Services
         </a>
@@ -72,7 +72,7 @@ export default function AdminPage() {
                     Edit
                   </a>
                   <button
-                    onClick={() => handleDelete(services.id)}
+                    onClick={() => handleDelete(src.id)}
                     className="bg-red-500 text-white px-3 py-1 rounded"
                   >
                     Delete
