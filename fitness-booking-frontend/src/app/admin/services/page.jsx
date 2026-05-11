@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 export default function AdminPage() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchServices() {
@@ -48,14 +49,15 @@ export default function AdminPage() {
           Add Services
         </a>
       </div>
+      <div>{error && <p className="text-red-500">{error}</p>}</div>
       <div className="overflow-x-auto">
         <table className="w-full border">
           <thead className="bg-gray-100">
             <tr>
-              <th className="p-3 border">Name</th>
-              <th className="p-3 border">Price</th>
-              <th className="p-3 border">Duration</th>
-              <th className="p-3 border">Action</th>
+              <th className="p-3 border text-black">Name</th>
+              <th className="p-3 border text-black">Price</th>
+              <th className="p-3 border text-black">Duration</th>
+              <th className="p-3 border text-black">Action</th>
             </tr>
           </thead>
           <tbody>
