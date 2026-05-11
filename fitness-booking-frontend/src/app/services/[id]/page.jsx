@@ -16,6 +16,7 @@ export default function ServiceDetail() {
   const [error, setError] = useState("");
   const [schedule, setSchedule] = useState([]);
   const [loadingBooking, setLoadingBooking] = useState(false);
+  const [myBooking, setMyBooking] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -23,6 +24,15 @@ export default function ServiceDetail() {
       toast.error("Pelase login first");
       router.push("/login");
       return;
+    }
+
+    async function fetchMyBookings() {
+      try {
+        const { data } = await api.get("/bookings/my-bookings");
+        setMyBooking(data);
+      } catch (error) {
+        setError(error.response?.data?.message);
+      }
     }
 
     async function fetchService() {
@@ -48,6 +58,7 @@ export default function ServiceDetail() {
 
     fetchService();
     fetchSchedule();
+    fetchMyBookings();
   }, [id, router]);
 
   async function handleBooking(ScheduleId) {
@@ -56,6 +67,8 @@ export default function ServiceDetail() {
       await api.post("/bookings", {
         ScheduleId,
       });
+
+      setMyBooking((prev) => [...prev, { ScheduleId }]);
       toast.success("Booking successful!");
     } catch (error) {
       toast.error(
@@ -78,33 +91,53 @@ export default function ServiceDetail() {
       <div className="mt-10">
         <h2 className="text-2xl font-bold mb-4">Available Schedules</h2>
         <div className="grid gap-4">
-          {schedule?.length === 0 && <p>No Schedule avaliable</p>}
-          {schedule?.map((sch) => (
-            <div
-              className="border rounded-xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
-              key={sch.id}
-            >
-              <div>
-                <p>Trainer: {sch.User.name}</p>
-                <p>Date: {formatDate(sch.date)}</p>
-                <p>
-                  Time: {formatTime(sch.startTime)} - {formatTime(sch.endTime)}
-                </p>
-                <p>Remaining slot: {sch.capacity}</p>
-              </div>
-              <button
-                onClick={() => handleBooking(sch.id)}
-                disabled={sch.capacity <= 0 || loadingBooking}
-                className="bg-white text-black px-4 py-2 rounded disabled:bg-gray-400 hover:bg-gray-200 cursor-pointer"
+          {schedule?.length === 0 && <p>No Schedule available</p>}
+
+          {schedule?.map((sch) => {
+            const isBooked = myBooking.some(
+              (booking) => booking.ScheduleId === sch.id,
+            );
+
+            return (
+              <div
+                className="border rounded-xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+                key={sch.id}
               >
-                {loadingBooking
-                  ? "Booking..."
-                  : sch.capacity <= 0
-                    ? "full"
-                    : "Book Now"}
-              </button>
-            </div>
-          ))}
+                <div>
+                  <p>Trainer: {sch.User.name}</p>
+
+                  <p>Date: {formatDate(sch.date)}</p>
+
+                  <p>
+                    Time: {formatTime(sch.startTime)} -{" "}
+                    {formatTime(sch.endTime)}
+                  </p>
+
+                  <p>Remaining slot: {sch.capacity}</p>
+
+                  {isBooked && (
+                    <p className="text-green-500 font-semibold">
+                      ✓ Already Booked
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  onClick={() => handleBooking(sch.id)}
+                  disabled={isBooked || sch.capacity <= 0 || loadingBooking}
+                  className="bg-white text-black px-4 py-2 rounded disabled:bg-gray-400 hover:bg-gray-200 cursor-pointer"
+                >
+                  {loadingBooking
+                    ? "Booking..."
+                    : isBooked
+                      ? "Already Booked"
+                      : sch.capacity <= 0
+                        ? "Full"
+                        : "Book Now"}
+                </button>
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="space-y-2">
