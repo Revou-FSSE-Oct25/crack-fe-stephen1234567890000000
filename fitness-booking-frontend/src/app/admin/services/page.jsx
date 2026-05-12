@@ -11,10 +11,15 @@ export default function AdminPage() {
 
   async function fetchServices() {
     try {
+      setLoading(true);
       const { data } = await api.get("/services");
+      console.log(data, 'fetching..');
+      
       setServices(data.services);
     } catch (error) {
       setError(error.response?.data?.message);
+      console.log(error, 'errrrr');
+      
     } finally {
       setLoading(false);
     }
@@ -33,7 +38,7 @@ export default function AdminPage() {
     }
     try {
       await api.delete(`/services/${id}`);
-      fetchServices();
+      setServices((prev) => prev.filter((srv) => srv.id !== id));
     } catch (error) {
       setError(error.response?.data?.message);
     }
