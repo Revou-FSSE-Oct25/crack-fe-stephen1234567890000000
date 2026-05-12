@@ -8,8 +8,11 @@ export default function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    const savedRole = localStorage.getItem("role");
-    setRole(savedRole);
+    async function loadRole() {
+      const savedRole = localStorage.getItem("role");
+      setRole(savedRole);
+    }
+    loadRole();
   }, []);
 
   function handleLogout() {
@@ -24,7 +27,7 @@ export default function Navbar() {
         FitBooking
       </Link>
       <div className="flex items-center gap-4">
-        <Link href="/services">Services</Link>
+        {role === "user" && <Link href="/services">Services</Link>}
         {role === "user" && <Link href="/bookings">My Bookings</Link>}
         {role === "admin" && <Link href="/admin/services">Dashboard</Link>}
         {role ? (
