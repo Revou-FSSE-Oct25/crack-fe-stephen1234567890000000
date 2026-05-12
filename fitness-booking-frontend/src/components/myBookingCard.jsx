@@ -51,7 +51,6 @@ export default function BookingCard({ booking, refresh }) {
   const role =
     typeof window !== "undefined" ? localStorage.getItem("role") : null;
 
-  //adding back button
   return (
     <div className="border rounded-xl p-4 shadow">
       <div className="flex flex-col md:flex-row md:justify-between gap-4">

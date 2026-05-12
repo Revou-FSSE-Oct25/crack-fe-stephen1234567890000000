@@ -10,20 +10,23 @@ export default function MyBooking() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    async function fetchBookings() {
-      try {
-        const { data } = await api.get("/bookings/my-bookings");
-        console.log(data, "ini dataaaa");
+  async function fetchBookings() {
+    try {
+      const { data } = await api.get("/bookings/my-bookings");
+      console.log(data, "ini dataaaa");
 
-        setBookings(data);
-      } catch (error) {
-        setError(error.response?.data?.message);
-      } finally {
-        setLoading(false);
-      }
+      setBookings(data);
+    } catch (error) {
+      setError(error.response?.data?.message);
+    } finally {
+      setLoading(false);
     }
-    fetchBookings();
+  }
+  useEffect(() => {
+    async function loadData() {
+      await fetchBookings();
+    }
+    loadData();
   }, []);
 
   useProtected(["user"]);
