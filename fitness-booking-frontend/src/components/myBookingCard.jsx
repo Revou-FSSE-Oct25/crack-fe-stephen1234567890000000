@@ -74,6 +74,9 @@ export default function BookingCard({ booking, refresh }) {
           {booking.status === "completed" && (
             <span className="text-gray-500">Completed</span>
           )}
+          {booking.status === "cancelled" && (
+            <span className="text-gray-500">Cancelled</span>
+          )}
           {booking.status === "confirmed" && role === "user" && (
             <button
               onClick={handleCancel}

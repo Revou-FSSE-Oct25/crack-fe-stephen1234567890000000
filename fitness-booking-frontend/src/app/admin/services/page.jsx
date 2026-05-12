@@ -2,24 +2,28 @@
 
 import api from "@/lib/axios";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function AdminPage() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    async function fetchServices() {
-      try {
-        const { data } = await api.get("/services");
-        setServices(data.services);
-      } catch (error) {
-        setError(error.response?.data?.message);
-      } finally {
-        setLoading(false);
-      }
+  async function fetchServices() {
+    try {
+      const { data } = await api.get("/services");
+      setServices(data.services);
+    } catch (error) {
+      setError(error.response?.data?.message);
+    } finally {
+      setLoading(false);
     }
-    fetchServices();
+  }
+  useEffect(() => {
+    async function loadData() {
+      await fetchServices();
+    }
+    loadData();
   }, []);
 
   async function handleDelete(id) {
@@ -42,12 +46,12 @@ export default function AdminPage() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Services</h1>
-        <a
+        <Link
           href="/admin/services/create"
           className="bg-white text-black px-4 py-2 rounded"
         >
           Add Services
-        </a>
+        </Link>
       </div>
       <div>{error && <p className="text-red-500">{error}</p>}</div>
       <div className="overflow-x-auto">
@@ -67,12 +71,12 @@ export default function AdminPage() {
                 <td className="border p-3">${src.price.toFixed(2)}</td>
                 <td className="border p-3">{src.duration} mins</td>
                 <td className="border p-3 space-x-2">
-                  <a
+                  <Link
                     href={`/admin/services/edit/${src.id}`}
                     className="bg-yellow-500 text-white px-3 py-1 rounded"
                   >
                     Edit
-                  </a>
+                  </Link>
                   <button
                     onClick={() => handleDelete(src.id)}
                     className="bg-red-500 text-white px-3 py-1 rounded"
