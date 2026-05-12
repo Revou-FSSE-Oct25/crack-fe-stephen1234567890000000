@@ -51,6 +51,7 @@ export default function BookingCard({ booking, refresh }) {
   const role =
     typeof window !== "undefined" ? localStorage.getItem("role") : null;
 
+  //adding back button
   return (
     <div className="border rounded-xl p-4 shadow">
       <div className="flex flex-col md:flex-row md:justify-between gap-4">
@@ -70,6 +71,9 @@ export default function BookingCard({ booking, refresh }) {
           >
             {booking.status}
           </span>
+          {booking.status === "completed" && (
+            <span className="text-gray-500">Completed</span>
+          )}
           {booking.status === "confirmed" && role === "user" && (
             <button
               onClick={handleCancel}
@@ -88,6 +92,12 @@ export default function BookingCard({ booking, refresh }) {
               </button>
             )}
         </div>
+      </div>
+      <div>
+        <p className="text-sm text-gray-500 mt-2">
+          Booked on: {formatDate(booking.createdAt)} at{" "}
+          {formatTime(booking.createdAt)}
+        </p>
       </div>
     </div>
   );
