@@ -3,6 +3,7 @@
 import api from "@/lib/axios";
 import { useEffect, useState } from "react";
 import BookingCard from "@/components/myBookingCard";
+import useProtected from "@/app/hooks/useProtected";
 
 export default function AdminBookings() {
   const [bookings, setBookings] = useState([]);
@@ -26,6 +27,8 @@ export default function AdminBookings() {
     }
     loadData();
   }, []);
+
+  useProtected(["admin"]);
 
   return (
     <div>

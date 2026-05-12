@@ -4,6 +4,7 @@ import api from "@/lib/axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import useProtected from "@/app/hooks/useProtected";
 
 export default function CreateService() {
   const router = useRouter();
@@ -25,6 +26,7 @@ export default function CreateService() {
       setError(error.response?.data?.message);
     }
   }
+  useProtected(["admin"]);
 
   return (
     <form onSubmit={handleSubmit} className="max-w-[500px] space-y-4">

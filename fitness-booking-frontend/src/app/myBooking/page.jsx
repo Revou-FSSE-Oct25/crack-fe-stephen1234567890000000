@@ -3,6 +3,7 @@
 import BookingCard from "@/components/myBookingCard";
 import api from "@/lib/axios";
 import { useEffect, useState } from "react";
+import useProtected from "@/app/hooks/useProtected";
 
 export default function MyBooking() {
   const [bookings, setBookings] = useState([]);
@@ -24,6 +25,8 @@ export default function MyBooking() {
     }
     fetchBookings();
   }, []);
+
+  useProtected(["user"]);
 
   return (
     <div className="p-6">
