@@ -9,19 +9,21 @@ export default function AdminBookings() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  async function fetchBookings() {
-    try {
-      const { data } = await api.get("/bookings/admin/all");
-      console.log(data, "ini dataaaa");
+  useEffect(() => {
+    async function fetchBookings() {
+      try {
+        const { data } = await api.get("/bookings/admin/all");
+        console.log(data, "ini dataaaa");
 
-      setBookings(data);
-    } catch (error) {
-      setError(error.response?.data?.message);
-    } finally {
-      setLoading(false);
+        setBookings(data);
+      } catch (error) {
+        setError(error.response?.data?.message);
+      } finally {
+        setLoading(false);
+      }
     }
-  }
-  fetchBookings();
+    fetchBookings();
+  }, []);
 
   return (
     <div>

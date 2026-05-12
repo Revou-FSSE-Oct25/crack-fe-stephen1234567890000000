@@ -2,6 +2,8 @@
 
 import api from "@/lib/axios";
 import toast from "react-hot-toast";
+import { formatDate } from "@/app/utils/formatDate";
+import { formatTime } from "@/app/utils/formatTime";
 
 export default function BookingCard({ booking, refresh }) {
   async function handleCancel() {
@@ -9,6 +11,7 @@ export default function BookingCard({ booking, refresh }) {
     if (!confirmed) {
       return;
     }
+
     try {
       await api.patch(`/bookings/${booking.id}/cancel`);
       toast.success("Booking cancelled");
@@ -55,9 +58,10 @@ export default function BookingCard({ booking, refresh }) {
           <p className="font-bold text-lg">
             Trainer: {booking.Schedule.User.name}
           </p>
-          <p>Date: {booking.Schedule.date}</p>
+          <p>Date: {formatDate(booking.Schedule.date)}</p>
           <p>
-            Time: {booking.Schedule.startTime} - {booking.Schedule.endTime}
+            Time: {formatTime(booking.Schedule.startTime)} -{" "}
+            {formatTime(booking.Schedule.endTime)}
           </p>
         </div>
         <div className="flex flex-col items-start md:items-end gap-3">
