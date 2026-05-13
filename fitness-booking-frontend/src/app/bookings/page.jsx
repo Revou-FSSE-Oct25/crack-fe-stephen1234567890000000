@@ -13,7 +13,8 @@ export default function MyBooking() {
   async function fetchBookings() {
     try {
       const { data } = await api.get("/bookings/my-bookings");
-
+      console.log(data, "ini data");
+      
       setBookings(data);
     } catch (error) {
       setError(error.response?.data?.message);

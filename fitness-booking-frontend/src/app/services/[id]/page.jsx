@@ -17,21 +17,21 @@ export default function ServiceDetail() {
   const [loadingBooking, setLoadingBooking] = useState(false);
   const [myBooking, setMyBooking] = useState([]);
 
+  async function fetchMyBookings() {
+    try {
+      const { data } = await api.get("/bookings/my-bookings");
+      setMyBooking(data);
+    } catch (error) {
+      setError(error.response?.data?.message);
+    }
+  }
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
       toast.error("Please login first");
       router.push("/login");
       return;
-    }
-
-    async function fetchMyBookings() {
-      try {
-        const { data } = await api.get("/bookings/my-bookings");
-        setMyBooking(data);
-      } catch (error) {
-        setError(error.response?.data?.message);
-      }
     }
 
     async function fetchService() {
@@ -55,19 +55,24 @@ export default function ServiceDetail() {
       }
     }
 
+    async function loadData() {
+      await fetchMyBookings();
+    }
+
     fetchService();
     fetchSchedule();
-    fetchMyBookings();
+    loadData();
   }, [id, router]);
 
   async function handleBooking(ScheduleId) {
     try {
       setLoadingBooking(true);
-      await api.post("/bookings", {
+      const { data } = await api.post("/bookings", {
         ScheduleId,
       });
 
-      setMyBooking((prev) => [...prev, { ScheduleId }]);
+      setMyBooking((prev) => [...prev, data]);
+
       toast.success("Booking successful!");
     } catch (error) {
       toast.error(

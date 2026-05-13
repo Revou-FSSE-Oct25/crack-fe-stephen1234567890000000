@@ -9,7 +9,14 @@ export default function ScheduleCard({
   handleBooking,
   loadingBooking,
 }) {
-  const isBooked = myBooking.some((book) => book.ScheduleId === sch.id);
+  const activeBooking = myBooking.find(
+    (book) => book.ScheduleId === sch.id && book.status === "confirmed",
+  );
+  const CompleteBooking = myBooking.find(
+    (book) => book.ScheduleId === sch.id && book.status === "completed",
+  );
+
+  const isBooked = !!activeBooking;
 
   return (
     <div>
@@ -21,8 +28,11 @@ export default function ScheduleCard({
         </p>
         <p>Remaining slot: {sch.capacity}</p>
 
-        {isBooked && (
+        {activeBooking && (
           <p className="text-green-500 font-semibold">✓ Already Booked</p>
+        )}
+        {CompleteBooking && (
+          <p className="text-blue-500 font-semibold">✓ Session Completed</p>
         )}
       </div>
       <button
