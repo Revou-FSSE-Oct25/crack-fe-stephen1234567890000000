@@ -5,6 +5,7 @@ import api from "@/lib/axios";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import ScheduleCard from "@/components/scheduleCard";
+import Skeleton from "@/components/Skeleton";
 
 export default function ServiceDetail() {
   const router = useRouter();
@@ -84,7 +85,23 @@ export default function ServiceDetail() {
     }
   }
 
-  if (loading) return <p>Loading Service...</p>;
+  if (loading) {
+    return (
+      <div className="p-6 space-y-4">
+        <Skeleton width="w-3/4" height="h-8" />
+        <Skeleton width="w-1/2" height="h-4" />
+        <div className="grid gap-4">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="bg-black p-6 rounded-lg border border-gray-700">
+              <Skeleton width="w-full" height="h-6" className="mb-2" />
+              <Skeleton width="w-2/3" height="h-4" className="mb-2" />
+              <Skeleton width="w-1/3" height="h-4" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
   if (error) return <p className="text-red-500">{error}</p>;
   if (!service) return <p>Service not found.</p>;
 
