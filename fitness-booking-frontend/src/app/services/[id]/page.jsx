@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import ScheduleCard from "@/components/scheduleCard";
 import Skeleton from "@/components/Skeleton";
 
+
 export default function ServiceDetail() {
   const router = useRouter();
   const params = useParams();
@@ -87,54 +88,205 @@ export default function ServiceDetail() {
 
   if (loading) {
     return (
-      <div className="p-6 space-y-4">
-        <Skeleton width="w-3/4" height="h-8" />
-        <Skeleton width="w-1/2" height="h-4" />
-        <div className="grid gap-4">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="bg-black p-6 rounded-lg border border-gray-700">
-              <Skeleton width="w-full" height="h-6" className="mb-2" />
-              <Skeleton width="w-2/3" height="h-4" className="mb-2" />
-              <Skeleton width="w-1/3" height="h-4" />
-            </div>
-          ))}
+      <div className="min-h-screen bg-black text-white p-6">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10">
+          <div className="bg-zinc-900 rounded-3xl h-[500px] animate-pulse" />
+
+          <div className="space-y-5">
+            <Skeleton width="w-1/3" height="h-5" />
+            <Skeleton width="w-3/4" height="h-12" />
+            <Skeleton width="w-full" height="h-20" />
+            <Skeleton width="w-1/2" height="h-10" />
+          </div>
         </div>
       </div>
     );
   }
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!service) return <p>Service not found.</p>;
+
+  if (error) {
+    return <p className="text-red-400 p-6">{error}</p>;
+  }
+
+  if (!service) {
+    return <p className="text-white p-6">Service not found.</p>;
+  }
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">{service.name}</h1>
-      <p className="text-gray-700 mb-4">{service.description}</p>
-      <div className="mt-10">
-        <h2 className="text-2xl font-bold mb-4">Available Schedules</h2>
-        <div className="grid gap-4">
-          {schedule?.length === 0 && <p>No Schedule available</p>}
-
-          {schedule?.map((el) => (
-            <ScheduleCard
-              key={el.id}
-              sch={el}
-              myBooking={myBooking}
-              handleBooking={handleBooking}
-              loadingBooking={loadingBooking}
+    <div className="min-h-screen bg-black text-white">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        {/* HERO */}
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* LEFT SIDE */}
+          <div
+            className="
+              bg-zinc-950
+              border border-zinc-800
+              rounded-3xl
+              overflow-hidden
+              h-[600px]
+              relative
+            "
+          >
+            {/* Service Image / Banner */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${service.image || "https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?auto=format&fit=crop&w=1200&q=80"})`,
+              }}
             />
-          ))}
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/40 to-zinc-950/70"
+            />
+
+            <div
+              className="
+                absolute bottom-8 left-8
+              "
+            >
+              <span
+                className="
+                  bg-white
+                  text-black
+                  text-sm
+                  font-bold
+                  px-4 py-2
+                  rounded-full
+                "
+              >
+                ELITE TRAINING
+              </span>
+            </div>
+          </div>
+
+          {/* RIGHT SIDE */}
+          <div className="flex flex-col justify-center">
+            <p className="text-zinc-500 uppercase tracking-[4px] mb-3">
+              Premium Fitness Program
+            </p>
+
+            <h1
+              className="
+                text-5xl lg:text-6xl
+                font-black
+                leading-tight
+                mb-6
+              "
+            >
+              {service.name}
+            </h1>
+
+            <div className="mb-8">
+              <h2 className="text-5xl font-extrabold">${service.price}</h2>
+
+              <p className="text-zinc-500 mt-2">Per Training Session</p>
+            </div>
+
+            <p
+              className="
+                text-zinc-400
+                leading-relaxed
+                text-lg
+                mb-8
+              "
+            >
+              {service.description}
+            </p>
+
+            {/* DETAILS */}
+            <div
+              className="
+                border-y border-zinc-800
+                py-6
+                mb-8
+                space-y-4
+              "
+            >
+              <div className="flex justify-between">
+                <span className="text-zinc-500">Duration</span>
+
+                <span className="font-semibold">
+                  {service.duration} Minutes
+                </span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="text-zinc-500">Training Type</span>
+
+                <span className="font-semibold">Strength & Conditioning</span>
+              </div>
+            </div>
+
+            {/* BUTTONS */}
+            <div className="flex gap-4">
+              <button
+                onClick={() => window.history.back()}
+                className="
+                  px-6 py-4
+                  rounded-full
+                  border border-zinc-700
+                  hover:bg-zinc-900
+                  transition-all
+                "
+              >
+                Back
+              </button>
+
+              <button
+                className="
+                  flex-1
+                  bg-white
+                  text-black
+                  font-bold
+                  py-4
+                  rounded-full
+                  hover:bg-zinc-200
+                  transition-all duration-300
+                "
+              >
+                Start Training
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* SCHEDULE SECTION */}
+        <div className="mt-24">
+          <div className="mb-10">
+            <p className="text-zinc-500 uppercase tracking-[3px] mb-3">
+              Booking Schedule
+            </p>
+
+            <h2 className="text-4xl font-black">Available Sessions</h2>
+          </div>
+
+          {schedule?.length === 0 ? (
+            <div
+              className="
+                bg-zinc-950
+                border border-zinc-800
+                rounded-3xl
+                p-10
+                text-center
+                text-zinc-500
+              "
+            >
+              No Schedule Available
+            </div>
+          ) : (
+            <div className="grid gap-6">
+              {schedule?.map((el) => (
+                <ScheduleCard
+                  key={el.id}
+                  sch={el}
+                  myBooking={myBooking}
+                  handleBooking={handleBooking}
+                  loadingBooking={loadingBooking}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
-      <div className="space-y-2">
-        <p>Duration: {service.duration} minutes</p>
-        <p>Price: ${service.price.toFixed(2)}</p>
-      </div>
-      <button
-        onClick={() => window.history.back()}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Back to Services
-      </button>
     </div>
   );
 }
