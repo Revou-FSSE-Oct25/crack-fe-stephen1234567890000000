@@ -10,6 +10,8 @@ export default function Navbar() {
   useEffect(() => {
     async function loadRole() {
       const savedRole = localStorage.getItem("role");
+      console.log(savedRole, "roleeee");
+      
       setRole(savedRole);
     }
     loadRole();
