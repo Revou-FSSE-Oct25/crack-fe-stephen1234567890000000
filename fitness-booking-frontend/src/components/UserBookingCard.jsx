@@ -6,6 +6,8 @@ import { formatTime } from "@/app/utils/formatTime";
 import toast from "react-hot-toast";
 
 export default function UserBookingCard({ booking, refresh }) {
+  console.log(booking, 'ini booking');
+  
   async function handleCancel() {
     const confirmed = confirm("Cancel Booking?");
     if (!confirmed) {
@@ -17,6 +19,8 @@ export default function UserBookingCard({ booking, refresh }) {
       refresh();
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to cancel booking");
+      console.log(error.response?.data?.message, 'errrrr');
+      
     }
   }
 
