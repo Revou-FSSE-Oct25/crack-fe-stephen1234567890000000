@@ -34,6 +34,10 @@ export default function UserBookingCard({ booking, refresh }) {
         return "bg-gray-500";
     }
   }
-  
-  return <div></div>;
+
+  return (
+    <div>
+      <h1>Ini my booking</h1>
+    </div>
+  );
 }

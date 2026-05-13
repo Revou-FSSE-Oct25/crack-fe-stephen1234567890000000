@@ -1,6 +1,6 @@
 "use client";
 
-import BookingCard from "@/components/myBookingCard";
+import BookingCard from "@/components/adminBookingCard";
 import api from "@/lib/axios";
 import { useEffect, useState } from "react";
 import useProtected from "@/app/hooks/useProtected";

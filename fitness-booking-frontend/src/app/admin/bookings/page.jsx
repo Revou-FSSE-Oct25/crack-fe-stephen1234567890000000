@@ -2,7 +2,7 @@
 
 import api from "@/lib/axios";
 import { useEffect, useState } from "react";
-import BookingCard from "@/components/myBookingCard";
+import AdminBookingCard from "@/components/adminBookingCard";
 import useProtected from "@/app/hooks/useProtected";
 
 export default function AdminBookings() {
@@ -37,7 +37,7 @@ export default function AdminBookings() {
         {error && <p className="text-red-500">{error}</p>}
         {loading && <p>Loading all bookings...</p>}
         {bookings?.map((el) => (
-          <BookingCard key={el.id} booking={el} refresh={fetchBookings} />
+          <AdminBookingCard key={el.id} booking={el} refresh={fetchBookings} />
         ))}
       </div>
     </div>
