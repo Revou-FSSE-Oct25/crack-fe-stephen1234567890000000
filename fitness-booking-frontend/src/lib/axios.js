@@ -20,7 +20,6 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired, logout dan redirect
       localStorage.removeItem("accessToken");
       localStorage.removeItem("role");
       if (typeof window !== "undefined") {
