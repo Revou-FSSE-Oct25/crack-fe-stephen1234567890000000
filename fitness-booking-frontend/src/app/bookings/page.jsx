@@ -1,6 +1,6 @@
 "use client";
 
-import BookingCard from "@/components/adminBookingCard";
+import UserBookingCard from "@/components/UserBookingCard";
 import api from "@/lib/axios";
 import { useEffect, useState } from "react";
 import useProtected from "@/app/hooks/useProtected";
@@ -13,7 +13,6 @@ export default function MyBooking() {
   async function fetchBookings() {
     try {
       const { data } = await api.get("/bookings/my-bookings");
-      console.log(data, "ini dataaaa");
 
       setBookings(data);
     } catch (error) {
@@ -39,7 +38,7 @@ export default function MyBooking() {
       {loading && <p>Loading your bookings...</p>}
       <div className="space-y-4">
         {bookings.map((el) => (
-          <BookingCard key={el.id} booking={el} refresh={fetchBookings} />
+          <UserBookingCard key={el.id} booking={el} refresh={fetchBookings} />
         ))}
       </div>
     </div>
