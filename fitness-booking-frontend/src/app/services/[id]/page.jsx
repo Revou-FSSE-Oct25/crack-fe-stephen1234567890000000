@@ -40,6 +40,9 @@ export default function ServiceDetail() {
       try {
         setLoading(true);
         const { data } = await api.get(`/services/${id}`);
+        
+        console.log("Service data:", data); // Debug: cek apakah imageUrl ada
+        console.log("Image URL:", data.imageUrl); // Debug: cek nilai imageUrl
         setService(data);
       } catch (error) {
         setError(error.response?.data?.message);
@@ -131,7 +134,7 @@ export default function ServiceDetail() {
             <div
               className="absolute inset-0 bg-cover bg-center"
               style={{
-                backgroundImage: `url(${service.image || "https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?auto=format&fit=crop&w=1200&q=80"})`,
+                backgroundImage: `url(${service.imageUrl || "https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?auto=format&fit=crop&w=1200&q=80"})`,
               }}
             />
             <div
