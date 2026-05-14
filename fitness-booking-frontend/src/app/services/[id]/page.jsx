@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import ScheduleCard from "@/components/scheduleCard";
 import Skeleton from "@/components/Skeleton";
 
-
 export default function ServiceDetail() {
   const router = useRouter();
   const params = useParams();
@@ -40,9 +39,7 @@ export default function ServiceDetail() {
       try {
         setLoading(true);
         const { data } = await api.get(`/services/${id}`);
-        
-        console.log("Service data:", data); // Debug: cek apakah imageUrl ada
-        console.log("Image URL:", data.imageUrl); // Debug: cek nilai imageUrl
+
         setService(data);
       } catch (error) {
         setError(error.response?.data?.message);
@@ -83,7 +80,6 @@ export default function ServiceDetail() {
       toast.error(
         error.response?.data?.message || error.message || "Booking failed!",
       );
-      console.log(error.response?.data?.message, "errr");
     } finally {
       setLoadingBooking(false);
     }
@@ -117,9 +113,7 @@ export default function ServiceDetail() {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto px-6 py-12">
-        {/* HERO */}
         <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* LEFT SIDE */}
           <div
             className="
               bg-zinc-950
@@ -130,16 +124,13 @@ export default function ServiceDetail() {
               relative
             "
           >
-            {/* Service Image / Banner */}
             <div
               className="absolute inset-0 bg-cover bg-center"
               style={{
                 backgroundImage: `url(${service.imageUrl || "https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?auto=format&fit=crop&w=1200&q=80"})`,
               }}
             />
-            <div
-              className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/40 to-zinc-950/70"
-            />
+            <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/40 to-zinc-950/70" />
 
             <div
               className="
@@ -161,7 +152,6 @@ export default function ServiceDetail() {
             </div>
           </div>
 
-          {/* RIGHT SIDE */}
           <div className="flex flex-col justify-center">
             <p className="text-zinc-500 uppercase tracking-[4px] mb-3">
               Premium Fitness Program
@@ -195,7 +185,6 @@ export default function ServiceDetail() {
               {service.description}
             </p>
 
-            {/* DETAILS */}
             <div
               className="
                 border-y border-zinc-800
@@ -219,7 +208,6 @@ export default function ServiceDetail() {
               </div>
             </div>
 
-            {/* BUTTONS */}
             <div className="flex gap-4">
               <button
                 onClick={() => window.history.back()}
@@ -252,7 +240,6 @@ export default function ServiceDetail() {
           </div>
         </div>
 
-        {/* SCHEDULE SECTION */}
         <div className="mt-24">
           <div className="mb-10">
             <p className="text-zinc-500 uppercase tracking-[3px] mb-3">
