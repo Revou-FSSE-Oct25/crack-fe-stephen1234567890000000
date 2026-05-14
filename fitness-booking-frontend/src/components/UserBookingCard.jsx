@@ -58,7 +58,7 @@ export default function UserBookingCard({ booking, refresh }) {
             h-[180px]
             rounded-2xl
             bg-gradient-to-br
-            from-zinc-800
+            from-zinc-500
             via-black
             to-zinc-900
             flex-shrink-0
