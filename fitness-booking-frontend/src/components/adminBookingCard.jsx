@@ -79,7 +79,6 @@ export default function AdminBookingCard({ booking, refresh }) {
             "
           />
 
-          {/* Overlay */}
           <div
             className="
               absolute inset-0
@@ -90,7 +89,6 @@ export default function AdminBookingCard({ booking, refresh }) {
             "
           />
 
-          {/* Badge */}
           <div
             className="
               absolute top-6 left-6
