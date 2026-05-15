@@ -54,6 +54,13 @@ export default function Navbar() {
               >
                 My Bookings
               </Link>
+
+              <Link
+                href="/profile"
+                className="text-zinc-300 hover:text-white transition duration-300"
+              >
+                My Profile
+              </Link>
             </>
           )}
 
