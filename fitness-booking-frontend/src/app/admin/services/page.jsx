@@ -3,11 +3,14 @@
 import api from "@/lib/axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 export default function AdminPage() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [deleteService, setDeleteService] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   async function fetchServices() {
     try {
@@ -29,16 +32,32 @@ export default function AdminPage() {
     loadData();
   }, []);
 
-  async function handleDelete(id) {
-    const confrimed = confirm("Delete this service?");
-    if (!confrimed) {
+  function openDeleteConfirmation(service) {
+    setDeleteService(service);
+  }
+
+  function closeDeleteConfirmation() {
+    setDeleteService(null);
+  }
+
+  async function confirmDelete() {
+    if (!deleteService) {
       return;
     }
+
     try {
-      await api.delete(`/services/${id}`);
-      setServices((prev) => prev.filter((srv) => srv.id !== id));
+      setDeleting(true);
+      await api.delete(`/services/${deleteService.id}`);
+      setServices((prev) => prev.filter((srv) => srv.id !== deleteService.id));
+      toast.success("Service deleted successfully.");
+      closeDeleteConfirmation();
     } catch (error) {
-      setError(error.response?.data?.message);
+      const message =
+        error.response?.data?.message || "Failed to delete service.";
+      setError(message);
+      toast.error(message);
+    } finally {
+      setDeleting(false);
     }
   }
 
@@ -129,6 +148,40 @@ export default function AdminPage() {
           "
         >
           {error}
+        </div>
+      )}
+
+      {deleteService && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-8">
+          <div className="w-full max-w-lg rounded-[32px] border border-zinc-800 bg-zinc-950 p-8 text-white">
+            <h2 className="text-2xl font-black mb-4">Confirm delete</h2>
+            <p className="text-zinc-400 mb-8">
+              Are you sure you want to remove the service{" "}
+              <span className="font-semibold text-white">
+                {deleteService.name}
+              </span>
+              ? This action cannot be undone.
+            </p>
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={closeDeleteConfirmation}
+                className="w-full sm:flex-1 border border-zinc-700 py-3 rounded-full hover:bg-zinc-900 transition-all duration-300"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                onClick={confirmDelete}
+                disabled={deleting}
+                className="w-full sm:flex-1 bg-red-600 text-white py-3 rounded-full font-semibold hover:bg-red-500 transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {deleting ? "Deleting..." : "Delete service"}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
@@ -281,7 +334,7 @@ export default function AdminPage() {
                 </Link>
 
                 <button
-                  onClick={() => handleDelete(src.id)}
+                  onClick={() => openDeleteConfirmation(src)}
                   className="
                     flex-1
                     border border-zinc-700
