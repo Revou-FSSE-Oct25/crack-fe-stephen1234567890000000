@@ -50,7 +50,6 @@ export default function Login() {
           min-h-screen
         "
       >
-        {/* LEFT SIDE */}
         <div
           className="
             relative
@@ -60,7 +59,6 @@ export default function Login() {
             overflow-hidden
           "
         >
-          {/* Background */}
           <div
             className="
               absolute inset-0
@@ -71,7 +69,6 @@ export default function Login() {
             "
           />
 
-          {/* Glow */}
           <div
             className="
               absolute
@@ -85,7 +82,6 @@ export default function Login() {
             "
           />
 
-          {/* Overlay */}
           <div
             className="
               absolute inset-0
@@ -96,7 +92,6 @@ export default function Login() {
             "
           />
 
-          {/* Content */}
           <div className="relative z-10">
             <span
               className="
@@ -141,7 +136,6 @@ export default function Login() {
               training sessions designed for serious results.
             </p>
 
-            {/* Bottom Stats */}
             <div
               className="
                 flex gap-12
@@ -193,7 +187,6 @@ export default function Login() {
           </div>
         </div>
 
-        {/* RIGHT SIDE */}
         <div
           className="
             flex
@@ -209,7 +202,6 @@ export default function Login() {
               max-w-[520px]
             "
           >
-            {/* MOBILE TITLE */}
             <div className="lg:hidden mb-10">
               <span
                 className="
@@ -237,7 +229,6 @@ export default function Login() {
               </h1>
             </div>
 
-            {/* CARD */}
             <div
               className="
                 bg-zinc-950
@@ -246,7 +237,6 @@ export default function Login() {
                 p-8 md:p-10
               "
             >
-              {/* TOP */}
               <div className="mb-10">
                 <p
                   className="
@@ -281,7 +271,6 @@ export default function Login() {
                 </p>
               </div>
 
-              {/* ERROR */}
               {error && (
                 <div
                   className="
@@ -297,9 +286,7 @@ export default function Login() {
                 </div>
               )}
 
-              {/* FORM */}
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* EMAIL */}
                 <div className="space-y-3">
                   <label
                     className="
@@ -334,7 +321,6 @@ export default function Login() {
                   />
                 </div>
 
-                {/* PASSWORD */}
                 <div className="space-y-3">
                   <label
                     className="
@@ -369,7 +355,6 @@ export default function Login() {
                   />
                 </div>
 
-                {/* OPTIONS */}
                 <div
                   className="
                     flex
@@ -401,7 +386,6 @@ export default function Login() {
                   </button>
                 </div>
 
-                {/* BUTTON */}
                 <button
                   disabled={loading}
                   className="
@@ -422,7 +406,6 @@ export default function Login() {
                 </button>
               </form>
 
-              {/* BOTTOM */}
               <div
                 className="
                   mt-10
