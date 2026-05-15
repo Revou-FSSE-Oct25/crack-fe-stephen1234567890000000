@@ -9,16 +9,20 @@ export default function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    async function loadRole() {
+    function loadRole() {
       const savedRole = localStorage.getItem("role");
       setRole(savedRole);
     }
+
     loadRole();
+    window.addEventListener("authChanged", loadRole);
+    return () => window.removeEventListener("authChanged", loadRole);
   }, []);
 
   function handleLogout() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("role");
+    window.dispatchEvent(new Event("authChanged"));
     router.push("/login");
   }
 

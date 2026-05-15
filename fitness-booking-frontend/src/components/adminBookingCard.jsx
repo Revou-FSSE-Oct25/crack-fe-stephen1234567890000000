@@ -6,8 +6,6 @@ import { formatDate } from "@/app/utils/formatDate";
 import { formatTime } from "@/app/utils/formatTime";
 
 export default function AdminBookingCard({ booking, refresh }) {
-  console.log(booking, "tesss");
-  
   async function handleComplete() {
     try {
       await api.patch(`/bookings/${booking.id}/complete`);

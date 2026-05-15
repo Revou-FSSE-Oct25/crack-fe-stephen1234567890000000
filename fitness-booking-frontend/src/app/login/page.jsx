@@ -19,6 +19,7 @@ export default function Login() {
       const { data } = await api.post("/auth/login", form);
       localStorage.setItem("accessToken", data.accesstoken);
       localStorage.setItem("role", data.role);
+      window.dispatchEvent(new Event("authChanged"));
       if (data.role === "admin") {
         router.push("/admin/services");
         return;
