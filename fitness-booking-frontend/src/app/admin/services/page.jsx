@@ -13,6 +13,7 @@ export default function AdminPage() {
     try {
       setLoading(true);
       const { data } = await api.get("/services");
+      console.log(data, "dataaaa");
 
       setServices(data.services);
     } catch (error) {
@@ -62,7 +63,6 @@ export default function AdminPage() {
 
   return (
     <div className="text-white">
-      {/* TOP SECTION */}
       <div
         className="
           flex flex-col lg:flex-row
@@ -117,7 +117,6 @@ export default function AdminPage() {
         </Link>
       </div>
 
-      {/* ERROR */}
       {error && (
         <div
           className="
@@ -133,7 +132,6 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* SERVICE CARDS */}
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
         {services.map((src) => (
           <div
@@ -149,7 +147,6 @@ export default function AdminPage() {
               hover:-translate-y-2
             "
           >
-            {/* BANNER */}
             <div
               className="
                 relative
@@ -157,7 +154,6 @@ export default function AdminPage() {
                 overflow-hidden
               "
             >
-              {/* Fake Image */}
               <div
                 className="
                   absolute inset-0
@@ -170,7 +166,6 @@ export default function AdminPage() {
                 "
               />
 
-              {/* Overlay */}
               <div
                 className="
                   absolute inset-0
@@ -181,7 +176,6 @@ export default function AdminPage() {
                 "
               />
 
-              {/* Badge */}
               <div
                 className="
                   absolute
@@ -203,7 +197,6 @@ export default function AdminPage() {
                 </span>
               </div>
 
-              {/* Price */}
               <div
                 className="
                   absolute
@@ -223,9 +216,7 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* CONTENT */}
             <div className="p-7">
-              {/* TITLE */}
               <div className="mb-6">
                 <h3
                   className="
@@ -248,7 +239,6 @@ export default function AdminPage() {
                 </p>
               </div>
 
-              {/* DETAILS */}
               <div
                 className="
                   border-y border-zinc-800
@@ -272,7 +262,6 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* ACTIONS */}
               <div className="flex gap-3">
                 <Link
                   href={`/admin/services/edit/${src.id}`}
